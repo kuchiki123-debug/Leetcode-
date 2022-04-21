@@ -1,0 +1,44 @@
+输入一个非负整数数组，
+把数组里所有数字拼接起来排成一个数，
+打印能拼接出的所有数字中最小的一个。
+
+示例 1:
+输入: [10,2]
+输出: "102"
+
+示例 2:
+输入: [3,30,34,5,9]
+输出: "3033459"
+
+1.（冒泡排序）
+class Solution {
+public:
+    string minNumber(vector<int>& nums)
+    {
+        int len=nums.size();
+        vector<string> str;
+        string res;
+        for(int i=0;i<len;i++)
+        {
+            str.push_back(to_string(nums[i]));
+        }
+        for(int i=0;i<str.size();i++)//冒泡排序
+        {
+            for(int j=0;j<str.size()-i-1;j++)
+            {
+                if(str[j]+str[j+1]>str[j+1]+str[j])//说明： str[j]"大于"str[j+1];
+                {
+                    string temp;
+                    temp=str[j];
+                    str[j]=str[j+1];
+                    str[j+1]=temp;
+                }
+            }
+        }
+        for(string c:str)
+        {
+            res+=c;//字符串之间可以通过“+”链接在一起
+        }
+        return res;
+    }
+};

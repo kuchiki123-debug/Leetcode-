@@ -1,0 +1,39 @@
+从上到下打印出二叉树的每个节点，同一层的节点按照从左到右的顺序打印。
+
+例如:
+给定二叉树: [3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+返回：
+[3,9,20,15,7]
+
+1.广度优先遍历(队列)
+class Solution {
+public:
+    vector<int> levelOrder(TreeNode* root) {
+        vector<int>result;
+        queue<TreeNode*>qe;
+        if(!root)
+        {
+            return {};
+        }
+        qe.push(root);
+        while(!qe.empty())
+        {
+            result.push_back(qe.front()->val);
+            if(qe.front()->left != NULL)
+            {
+                qe.push(qe.front()->left);
+            }
+            if(qe.front()->right != NULL)
+            {
+                qe.push(qe.front()->right);
+            }
+            qe.pop();
+        }
+        return result;
+    }
+};

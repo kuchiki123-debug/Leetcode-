@@ -1,0 +1,44 @@
+class Solution {
+public:
+    typedef unordered_map<char,int> umap;
+    typedef pair<char,int> charint;
+    //0：空格标志  1：符号标志 2.数字标志  3.结束标置
+    vector<umap> tables={
+        umap{charint(' ',0),charint('s',1),charint('d',2),charint('?',3)},
+        umap{charint(' ',3),charint('s',3),charint('d',2),charint('?',3)},
+        umap{charint(' ',3),charint('s',3),charint('d',2),charint('?',3)},
+        umap{charint(' ',3),charint('s',3),charint('d',3),charint('?',3)}
+    };
+    int strToInt(string str) {
+        
+        int state=0;//当前状态
+        uint64_t num=0;//记录数（不包含符号）
+        int  sign=1;//符号（+,-）
+        char t;//当前的字符类型,用一个字符去标记
+        for(char c:str){
+            if(c==' '){//空格
+                t=' ';
+            }
+            else if(c=='+'||c=='-'){//正负号
+                t='s';
+            }
+            else if(c>='0'&&c<='9'){//数字
+                t='d';
+                num=num*10+static_cast<int>(c-'0');
+                if(num>=INT_MAX&&sign==1){
+                    return INT_MAX;
+                }
+                if(num>=static_cast<uint64_t>(INT_MAX)+1&&sign==-1){
+                    return INT_MIN;
+                }
+            }
+            else{//其他
+                t='?';
+            }
+            state=static_cast<int>(tables[state][t]);//更新状态
+            if(state==3) break;//3为结束标值
+            if(c=='-') sign=-1;//负数标志，放在最后面,防止出现多次符号位，因为一旦遇到结束标志就会退出
+        }
+        return sign*num;
+    }
+};
